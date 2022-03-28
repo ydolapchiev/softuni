@@ -1,0 +1,24 @@
+import re
+
+text = input()
+
+products = list()
+expiration_dates = list()
+calories = list()
+
+pattern = r"(#|\|)(?P<product>[a-zA-z ]+)(\1)(?P<expiration>\d{2}\/\d{2}\/\d{2})(\1)(?P<calories>\d+)(\1)"
+
+matches = re.finditer(pattern, text)
+
+for match in matches:
+    products.append(match.group("product"))
+    expiration_dates.append(match.group("expiration"))
+    calories.append(match.group("calories"))
+
+calories = list(map(int, calories))
+days_to_last = sum(calories) // 2000
+
+
+print(f"You have food to last you for: {days_to_last} days!")
+for i in range(len(products)):
+    print(f"Item: {products[i]}, Best before: {expiration_dates[i]}, Nutrition: {calories[i]}")
